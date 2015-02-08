@@ -1,0 +1,7 @@
+{
+	"name": "nw-test-runner",
+	"main": "index.html",
+	"window": {
+		"show": true
+	}
+}

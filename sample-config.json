@@ -1,0 +1,6 @@
+{
+
+"src": "../test/src/*.js",
+"mock":"../test/mock/*.js",
+"test":"../test/test/*.js"
+} 
