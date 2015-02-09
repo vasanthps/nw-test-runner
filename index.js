@@ -7,11 +7,21 @@ var mocha = require('mocha');
 
 function run() {
 	var args = process.argv;
-	var config = args[2];
+	var config = "nwtest.config.json";
 
+
+	if(fs.existsSync(config)) {
+		console.log("Found the " + config + " file");
+	} else {
+		console.log("nw-test-runner needs the config file to be present in the directory in which tests are executed. Please see readme for more details");
+		return;
+	}
+	//This check not needed
 	if(config) {
 		try {
-			var opts = require(config);
+			var aconf = path.resolve(config);
+			var opts = require(aconf);
+			
 			if(opts.src) {
 				var src = glob.sync(opts.src);
 			}
@@ -21,7 +31,6 @@ function run() {
 			if(opts.test) {
 				var test = glob.sync(opts.test);
 			}
-			
 			for(var k in test) {
 				var file = test[k];
 
@@ -29,9 +38,19 @@ function run() {
 				var basename = path.basename(file);
 				var srcFileName = getBaseName(basename) + '.js';
 				var mockFileName = getBaseName(basename) + '.mock.js';
+				var outputFilename = getBaseName(basename) + '.result.xml';
 				var srcFile, mockFile, list = [];
-				console.log(basename);
-				console.log(src);
+				
+				if(opts.files) {
+					if(Array.isArray(opts.files)) {
+						opts.files.forEach(function(f) {
+							list.push(path.resolve(f));
+						})
+					} else {
+						list.push(path.resolve(opts.files));
+					}
+				}
+
 				for(var i in mock) {
 					var filem = mock[i];
 					if(filem.indexOf(mockFileName) > -1) {
@@ -50,35 +69,33 @@ function run() {
 					}
 				}
 
-				
+				//Push the test file atlast
 				list.push(path.resolve(file));
-				
+
+				var output_folder = "";
+				var fse = require('fs-extra');
+				if(!opts.output) {
+
+					output_folder = "nwtest_results";
+
+				} else {
+					output_folder = opts.output;
+				}
+				//fse.removeSync(output_folder);
+				fse.ensureDirSync(output_folder);
+				console.log("Running " + basename + " tests...");
 				try {
 					
-					var ls = cp.exec('"node_modules/nodewebkit/nodewebkit/nw" ./lib/ ' + list);
-					//var ls = cp.execFile('nw.sh');
-					//var ls = cp.spawn('ls');
-
-					ls.stdout.on('data', function (data) {
-					  console.log('stdout: ' + data);
-					});
-
-					ls.stderr.on('data', function (data) {
-					  console.log('stderr: ' + data);
-					});
-
-					ls.on('close', function (code) {
-					  console.log('child process exited with code ' + code);
-					});
+					var ls = cp.execSync('"node_modules/nodewebkit/nodewebkit/nw" ./node_modules/nw-test-runner/lib/ ' + list + ' ' + output_folder + ' ' + outputFilename);
+					
+					//Add an error check
 				} catch(exp) {
 					console.log(exp);
 				}
-
-				break;
 			}
 			
 		} catch(exp) {
-			//Not a json file
+			
 			console.log(exp);
 		}
 		

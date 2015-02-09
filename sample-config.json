@@ -1,6 +1,10 @@
 {
-
-"src": "../test/src/*.js",
-"mock":"../test/mock/*.js",
-"test":"../test/test/*.js"
+    "files": [
+        "src/app/angular.js",
+        "src/app/angular-mocks.js"
+    ],
+    "src": "src/**/*.js",
+    "mock":"tests/**/*mock.js",
+    "test":"tests/**/*test.js",
+    "output": "test-results"
 } 
