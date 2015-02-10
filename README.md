@@ -26,15 +26,25 @@ Here is a sample file:-
     "src": "src/**/*.js",
     "mock":"tests/**/*mock.js",
     "test":"tests/**/*test.js",
-    "output": "test-results"
+    "output": "test-results",
+    "nwpath": "nodewebkit/nw",
+    "ext": "spec"
 }
 ```
 
 '<B>files</B>' - Files to include in all your tests.These will be loaded before all your test, mock and source files
+
 '<B>src</B>' - The source file pattern to match and load
+
 '<B>mock</B>' - The mock file pattern to match and load
-'<B>test</B>' - The test file pattern to match and load
+
+'<B>test*</B>' - The test file pattern to match and load
+
 '<B>output</B>' - The output folder to which all your test results will be published.
+
+'<B>nwpath*</B>' - The path to the nw.exe.
+
+'<B>ext</B>' - The extension you use for your test file name. Could be *.spec.js or *.test.js.
 
 How does it work?
 -----------------
@@ -52,16 +62,5 @@ As of now, you have to do
 > node node_modules/nw-test-runner/index.js
 
 Later, a cli tool will be added for running the tests
-
-What is the minimum version of node required?
---------------------------------------------
-
-Node v0.12 is needed to run the tests
-
-
-In which version of node-webkit are my tests executed?
------------------------------------------------------
-
-NW 0.8.6 is used by default. In future version, it will be made configurable
 
 

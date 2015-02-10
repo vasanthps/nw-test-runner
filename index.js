@@ -54,7 +54,8 @@ var mocha = require('mocha');
 
 			//Now get the node path
 			if(!opts.nwpath) {
-				nw_path = '"node_modules/nodewebkit/nodewebkit/nw"';
+				console.log("Please specify nwpath param in config file");
+				return;
 			} else {
 				nw_path = opts.nwpath;
 			}
@@ -65,11 +66,17 @@ var mocha = require('mocha');
 				var defer = q.defer();
 
 				var file = test[index];
+
+				var ext = "test";
+
+				if(opts.ext) {
+					ext = opts.ext;
+				}
 				//Now pick a test file and find the corresponding mock and src file
 				var basename = path.basename(file);
-				var srcFileName = getBaseName(basename) + '.js';
-				var mockFileName = getBaseName(basename) + '.mock.js';
-				var outputFilename = getBaseName(basename) + '.result.xml';
+				var srcFileName = getBaseName(basename, ext) + '.js';
+				var mockFileName = getBaseName(basename, ext) + '.mock.js';
+				var outputFilename = getBaseName(basename, ext) + '.result.xml';
 				var srcFile, mockFile, list = [];
 				
 				if(opts.files) {
@@ -106,8 +113,7 @@ var mocha = require('mocha');
 				console.log("Running " + basename + " tests...");
 				try {
 					
-					var execCmd = nw_path + ' ./node_modules/nw-test-runner/lib/ ' + list + ' ' + output_folder + ' ' + outputFilename;
-					console.log(execCmd);
+					var execCmd = '"' + nw_path + '" ./node_modules/nw-test-runner/lib/ ' + list + ' ' + output_folder + ' ' + outputFilename;
 					var ls = cp.exec(execCmd, function(err, done) {
 						if(err)
 							defer.reject(err);
@@ -124,29 +130,27 @@ var mocha = require('mocha');
 				return defer.promise;
 			};
 
-			runTest(i).then(function() {
-				i++
-				if(i < test.length)
-					runTest(i);
-				else
-					console.log("All tests done!");
-			}, function(err) {
-				console.log("Running test failed with error:- " + err);
+			var successCb = function() {
 				i++;
 				if(i < test.length)
-					runTest(i);
+					runTest(i).then(successCb, errorCb);
 				else
 					console.log("All tests done!");
-			});
+			};
+			var errorCb = function(err) {
+				console.log("Running test failed with error:- " + err);
+				successCb();
+			};
+
+			runTest(i).then(successCb, errorCb);
 			
 		} catch(exp) {
-			
 			console.log(exp);
 		}
 })();
 
-function getBaseName(filename) {
-	var name = filename.split('.test');
+function getBaseName(filename, ext) {
+	var name = filename.split('.' + ext);
 	return name[0];
 }
 

@@ -6,5 +6,7 @@
     "src": "src/**/*.js",
     "mock":"tests/**/*mock.js",
     "test":"tests/**/*test.js",
-    "output": "test-results"
+    "output": "test-results",
+    "nwpath": "nodewebkit/nw",
+    "ext": "test"
 } 
