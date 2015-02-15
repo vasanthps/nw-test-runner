@@ -20,6 +20,10 @@
     "url": "https://github.com/vasanthps/nw-test-runner/issues",
     "email": "sayhello@vasanthsriram.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vasanthps/nw-test-runner"
+  },
   "dependencies": {
     "chai": "^1.10.0",
     "fs-extra": "^0.16.3",

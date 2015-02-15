@@ -77,7 +77,7 @@ var mocha = require('mocha');
 				var srcFileName = getBaseName(basename, ext) + '.js';
 				var mockFileName = getBaseName(basename, ext) + '.mock.js';
 				var outputFilename = getBaseName(basename, ext) + '.result.xml';
-				var srcFile, mockFile, list = [];
+				var srcFile, mockFile, addlFiles, list = [];
 				
 				if(opts.files) {
 					if(Array.isArray(opts.files)) {
@@ -94,6 +94,16 @@ var mocha = require('mocha');
 					if(filem.indexOf(mockFileName) > -1) {
 						mockFile = filem;
 						list.push(path.resolve(filem));
+						try {
+							var afls = require(filem);
+							if(Array.isArray(afls)) {
+								afls.forEach(function(item) {
+									list.push(path.resolve(item));
+								});
+							}
+						} catch(exp) {
+							//Dont worry. Nothing to inject extra. Continue
+						}
 						break;
 					}
 				}

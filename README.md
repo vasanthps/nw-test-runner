@@ -55,6 +55,10 @@ For ex:-
 
 if you test file is named <B>app.test.js</B>, the src file should be named <B>app.js</B> and your mock file should be named <B>app.mock.js</B>. Having a corresponding src and mock file is optional.
 
+In the mock file, you can also mention other files to load in case you are not interested in mocking everything and want to inlcude some other source files to support your test. It can be done by adding the following code in your mock file.
+
+> module.exports = ['file1.js', 'file2.js'];
+
 How to run the tests?
 --------------------
 
