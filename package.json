@@ -1,6 +1,6 @@
 {
   "name": "nw-test-runner",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Test runner for node webkit with mocha, chai and report generation for Jenkins",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,10 @@
   "bugs": {
     "url": "https://github.com/vasanthps/nw-test-runner/issues",
     "email": "sayhello@vasanthsriram.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vasanthps/nw-test-runner"
   },
   "dependencies": {
     "chai": "^1.10.0",
