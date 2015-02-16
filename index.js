@@ -96,10 +96,12 @@ var mocha = require('mocha');
 						list.push(path.resolve(filem));
 						try {
 							var afls = require(filem);
-							if(Array.isArray(afls)) {
-								afls.forEach(function(item) {
+							if(afls && Array.isArray(afls.include)) {
+								afls.include.forEach(function(item) {
 									list.push(path.resolve(item));
 								});
+							} else if(afls){
+								fs.appendFileSync(path.resolve(filem), "module.exports.mock();")
 							}
 						} catch(exp) {
 							//Dont worry. Nothing to inject extra. Continue
