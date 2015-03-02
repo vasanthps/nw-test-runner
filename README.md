@@ -62,12 +62,7 @@ If you want to include some other source files to support your test, it can be d
 
 
 ```javascript
-module.exports = {
-	include: ['file1.js', 'file2.js'],
-	mock: function() {
-		//Mock code
-	}
-}
+module.exports = ['/path/to/file1.js', '/path/to/file2.js'];
 ```
 
 How to run the tests?
@@ -75,11 +70,9 @@ How to run the tests?
 
 As of now, you have to do 
 > node node_modules/nw-test-runner
-<<<<<<< HEAD
 
 or, alternatively you can make this command to be executed for 'npm test' in package.json
-=======
->>>>>>> master
+
 
 Later, a cli tool will be added for running the tests
 

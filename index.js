@@ -37,7 +37,7 @@ var mocha = require('mocha');
 				mock = glob.sync(opts.mock);
 			}
 			if(opts.deps) {
-				mock = glob.sync(opts.deps);
+				deps = glob.sync(opts.deps);
 			}
 			if(opts.test) {
 				test = glob.sync(opts.test);
@@ -104,7 +104,7 @@ var mocha = require('mocha');
 				}
 
 				for(var i in deps) {
-					var filed = depsFileName[i];
+					var filed = deps[i];
 					if(filed.indexOf(depsFileName) > -1) {
 						depFile = filed;
 						try {
