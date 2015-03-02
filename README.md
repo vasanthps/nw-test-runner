@@ -60,15 +60,26 @@ if you test file is named <B>app.test.js</B>, the src file should be named <B>ap
 
 If you want to include some other source files to support your test, it can be done by adding the following code in your deps file. If you have to repeatedly mock something for your tests, you can create a single file with the mock and include it using deps file.
 
-> module.exports = ['file1.js', 'file2.js'];
+
+```javascript
+module.exports = {
+	include: ['file1.js', 'file2.js'],
+	mock: function() {
+		//Mock code
+	}
+}
+```
 
 How to run the tests?
 --------------------
 
 As of now, you have to do 
 > node node_modules/nw-test-runner
+<<<<<<< HEAD
 
 or, alternatively you can make this command to be executed for 'npm test' in package.json
+=======
+>>>>>>> master
 
 Later, a cli tool will be added for running the tests
 
