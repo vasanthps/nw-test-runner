@@ -25,6 +25,7 @@ Here is a sample file:-
     ],
     "src": "src/**/*.js",
     "mock":"tests/**/*mock.js",
+    "deps":"tests/**/*deps.js",
     "test":"tests/**/*test.js",
     "output": "test-results",
     "nwpath": "nodewebkit/nw",
@@ -38,6 +39,8 @@ Here is a sample file:-
 
 '<B>mock</B>' - The mock file pattern to match and load
 
+'<B>deps</B>' - The dependencies file pattern to match and load. These are the files that you can specify as dependencies if you decide not to mock
+
 '<B>test*</B>' - The test file pattern to match and load
 
 '<B>output</B>' - The output folder to which all your test results will be published.
@@ -49,13 +52,13 @@ Here is a sample file:-
 How does it work?
 -----------------
 
-The nw-test-runner goes through your list of test files that you have added. It picks a test file and then tries to find the corresponding src and mock file by matching the name.
+The nw-test-runner goes through your list of test files that you have added. It picks a test file and then tries to find the corresponding src, mock and dependency file by matching the name.
 
 For ex:-
 
-if you test file is named <B>app.test.js</B>, the src file should be named <B>app.js</B> and your mock file should be named <B>app.mock.js</B>. Having a corresponding src and mock file is optional.
+if you test file is named <B>app.test.js</B>, the src file should be named <B>app.js</B>, the dep file should be named <B>app.deps.js</B>  and your mock file should be named <B>app.mock.js</B>. Having a corresponding src and mock file is optional.
 
-In the mock file, you can also mention other files to load in case you are not interested in mocking everything and want to inlcude some other source files to support your test. It can be done by adding the following code in your mock file.
+If you want to include some other source files to support your test, it can be done by adding the following code in your deps file. If you have to repeatedly mock something for your tests, you can create a single file with the mock and include it using deps file.
 
 > module.exports = ['file1.js', 'file2.js'];
 
@@ -63,7 +66,9 @@ How to run the tests?
 --------------------
 
 As of now, you have to do 
-> node node_modules/nw-test-runner/index.js
+> node node_modules/nw-test-runner
+
+or, alternatively you can make this command to be executed for 'npm test' in package.json
 
 Later, a cli tool will be added for running the tests
 

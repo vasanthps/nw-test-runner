@@ -26,7 +26,8 @@ var mocha = require('mocha');
 				nw_path = "",
 				i = 0,
 				src, 
-				mock, 
+				mock,
+				deps,
 				test;
 			
 			if(opts.src) {
@@ -34,6 +35,9 @@ var mocha = require('mocha');
 			}
 			if(opts.mock) {
 				mock = glob.sync(opts.mock);
+			}
+			if(opts.deps) {
+				mock = glob.sync(opts.deps);
 			}
 			if(opts.test) {
 				test = glob.sync(opts.test);
@@ -76,8 +80,9 @@ var mocha = require('mocha');
 				var basename = path.basename(file);
 				var srcFileName = getBaseName(basename, ext) + '.js';
 				var mockFileName = getBaseName(basename, ext) + '.mock.js';
+				var depsFileName = getBaseName(basename, ext) + '.deps.js';
 				var outputFilename = getBaseName(basename, ext) + '.result.xml';
-				var srcFile, mockFile, addlFiles, list = [];
+				var srcFile, mockFile, depFile, addlFiles, list = [];
 				
 				if(opts.files) {
 					if(Array.isArray(opts.files)) {
@@ -94,16 +99,23 @@ var mocha = require('mocha');
 					if(filem.indexOf(mockFileName) > -1) {
 						mockFile = filem;
 						list.push(path.resolve(filem));
+						break;
+					}
+				}
+
+				for(var i in deps) {
+					var filed = depsFileName[i];
+					if(filed.indexOf(depsFileName) > -1) {
+						depFile = filed;
 						try {
-							var afls = require(filem);
-							if(Array.isArray(afls)) {
-								afls.forEach(function(item) {
-									list.push(path.resolve(item));
-								});
-							}
-						} catch(exp) {
-							//Dont worry. Nothing to inject extra. Continue
+							addlFiles = require(path.resolve(filed)); 
+						} catch(e) {
+							//Ignore as of now
 						}
+						addlFiles.forEach(function(f) {
+							list.push(path.resolve(f));
+						})
+						
 						break;
 					}
 				}
