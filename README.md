@@ -1,5 +1,5 @@
 # nw-test-runner
-Test runner for node webkit app with mocha
+Test runner for node webkit app with mocha and istanbul
 
 Why nw-test-runner?
 -------------------
@@ -29,7 +29,9 @@ Here is a sample file:-
     "test":"tests/**/*test.js",
     "output": "test-results",
     "nwpath": "nodewebkit/nw",
-    "ext": "spec"
+    "ext": "spec",
+    "covReport": ['cobertura', 'html' ],
+    "doNotRunCoverage": true
 }
 ```
 
@@ -48,6 +50,10 @@ Here is a sample file:-
 '<B>nwpath*</B>' - The path to the nw.exe.
 
 '<B>ext</B>' - The extension you use for your test file name. Could be *.spec.js or *.test.js.
+
+'<B>covReport</B>' - Array of coverage reports you need to be generated
+
+'<B>doNotRunCoverage</B>' - This will check if coverage needs to be run for source files that have no tests
 
 How does it work?
 -----------------
@@ -72,6 +78,10 @@ As of now, you have to do
 > node node_modules/nw-test-runner
 
 or, alternatively you can make this command to be executed for 'npm test' in package.json
+
+In case, you want to run only a perticular test file, you can pass an optional command line argument. The test files that contain the string that you passed in their name only will be run
+
+> node node_modules/nw-test-runner app.service.js
 
 
 Later, a cli tool will be added for running the tests

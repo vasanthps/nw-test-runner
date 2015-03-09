@@ -1,7 +1,7 @@
 {
   "name": "nw-test-runner",
-  "version": "1.2.4",
-  "description": "Test runner for node webkit with mocha, chai and report generation for Jenkins",
+  "version": "1.3.0",
+  "description": "Test runner for node webkit with mocha, chai and Istabul.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +11,11 @@
     "node",
     "webkit",
     "test",
-    "runner"
+    "runner",
+    "unit",
+    "coverage",
+    "istanbul",
+    "jenkins"
   ],
   "author": "Vasanth Sriram",
   "license": "MIT",
@@ -26,8 +30,9 @@
   },
   "dependencies": {
     "chai": "^1.10.0",
-    "fs-extra": "^0.16.3",
-    "glob": "^4.3.5",
+    "colors": "^1.0.3",
+    "glob-array": "^0.1.2",
+    "istanbul": "^0.3.7",
     "jquery": "^2.1.3",
     "mocha": "^2.1.0",
     "q": "^1.1.2"
