@@ -1,19 +1,19 @@
 var mocha = require('mocha');
-	glob = require('glob-array'),
- 	cp = require('child_process'),
- 	fs = require('fs'),
- 	path = require('path'),
- 	q = require('q');
-var colors = require('colors');
-var istanbul = require('istanbul'),
-        collector = new istanbul.Collector(),
-        reporter = new istanbul.Reporter(),
-        sync = false;
+	  glob = require('glob-array'),
+ 	  cp = require('child_process'),
+ 	  fs = require('fs'),
+ 	  path = require('path'),
+ 	  q = require('q');
+
+var colors = require('colors'),
+    istanbul = require('istanbul'),
+    collector = new istanbul.Collector(),
+    reporter = new istanbul.Reporter(),
+    sync = false;
 
 (function() {
 	var args = process.argv,
 	    config = "nwtest.config.json";
-console.log(args);
 
 	if(fs.existsSync(config)) {
 		console.log("Found the " + config + " file");
@@ -23,25 +23,25 @@ console.log(args);
 	}
 
 	try {
-			var aconf = path.resolve(config), 
+			var aconf = path.resolve(config),
 				opts = require(aconf),
 				fse = require('fs-extra'),
 				output_folder = "",
 				nw_path = "",
 				i = 0,
-                j = 0,
-				src, 
+        j = 0,
+				src,
 				mock,
 				deps,
 				test,
-                sock,
-                testData,
-                isAllSrcFilesRun = false;
-			
+        sock,
+        testData,
+        isAllSrcFilesRun = false;
+
 			src = getFiles(opts.src);
 			mock = getFiles(opts.mock);
-            deps = getFiles(opts.deps);
-        
+      deps = getFiles(opts.deps);
+
 			if(opts.test) {
 				test = getFiles(opts.test);
                 if(process.argv[2]) {
@@ -49,12 +49,11 @@ console.log(args);
                         return item.indexOf(process.argv[2]) != -1;
                     });
                 }
-                console.log(test)
-			} else { 
+			} else {
 				console.log(colors.red("Test files to execute should be mentioned in config file"));
 				process.exit(0);
 			}
-        
+
             if(!opts.port) {
                 opts.port = 3232;
             } else {
@@ -79,23 +78,25 @@ console.log(args);
 			} else {
 				nw_path = opts.nwpath;
 			}
-            
+
             var serverCB = function(s) {
                 sock = s;
                 sock.write(JSON.stringify(testData));
                 sock.on('data', function(data) {
                     var pdata = JSON.parse(data);
                     if(typeof pdata.fail !== 'undefined') {
-                        if(pdata.fail === 0)
-                            console.log(colors.green(pdata.fail + " tests failed"));
-                        else
-                            console.log(colors.red(pdata.fail + " tests failed"));
+                        if(pdata.fail === 0) {
+													console.log(colors.green(pdata.fail + " tests failed"));
+												}
+                        else {
+													console.log(colors.red(pdata.fail + " tests failed"));
+												}
                         try {
                             collector.add(JSON.parse(fs.readFileSync('temp.json', 'utf8')));
                         } catch(exp) {
                             console.log(colors.red("Adding to collector failed"));
                         }
-                        
+
                         setTimeout(successCb, 500);
                     }
                     if(pdata.coverage) {
@@ -104,12 +105,12 @@ console.log(args);
                     if(pdata.log) {
                         console.log(data.log);
                     }
-                   
+
                 });
             };
-        
+
             startServer(opts.port, serverCB);
-            
+
            if(typeof opts.covReport === 'string') {
                 reporter.addAll([ opts.covReport ]);
             } else if(Array.isArray(opts.covReport)) {
@@ -127,18 +128,18 @@ console.log(args);
 				if(opts.ext) {
 					ext = opts.ext;
 				}
-                
+
                 testData = {};
                 testData.outputFolder = output_folder;
-                
+
                 if(runSourceFiles) {
                     testData.src = [src[index]];
                     testData.outputFileName = path.basename(testData.src);
                     console.log("Running coverage for untested file: " + colors.yellow(testData.outputFileName));
-                    
+
                 } else {
-                    
-                
+
+
                     var file = test[index];
                     //Now pick a test file and find the corresponding mock and src file
                     var basename = path.basename(file);
@@ -147,9 +148,9 @@ console.log(args);
                     var depsFileName = getBaseName(basename, ext) + '.deps.js';
                     var outputFilename = getBaseName(basename, ext) + '.result.xml';
                     var srcFile, mockFile, depFile, addlFiles, list = [];
-                    
+
                     testData.outputFileName = outputFilename;
-                    
+
                     if(opts.files) {
                         if(Array.isArray(opts.files)) {
                             opts.files.forEach(function(f) {
@@ -170,7 +171,7 @@ console.log(args);
                                 mockFile = filem;
                                 list.push(path.resolve(filem));
                                 break;
-                            } 
+                            }
                         }
                         testData.mock = list;
                     }
@@ -183,7 +184,7 @@ console.log(args);
                             if(filed.indexOf(depsFileName) > -1) {
                                 depFile = filed;
                                 try {
-                                    addlFiles = require(path.resolve(filed)); 
+                                    addlFiles = require(path.resolve(filed));
                                 } catch(e) {
                                     //Ignore as of now
                                 }
@@ -216,9 +217,9 @@ console.log(args);
 
                     console.log("Running " + basename + " tests...");
                 }
-                
+
 				try {
-					
+
 					var execCmd = '"' + nw_path + '" ./node_modules/nw-test-runner/lib/ ' + opts.port;
 					var child = cp.exec(execCmd, function(err, done) {
 						if(err)
@@ -226,7 +227,7 @@ console.log(args);
 						else
 							defer.resolve(true);
 					});
-                    
+
 				//Add an error check
 				} catch(exp) {
 					console.log(exp);
@@ -259,8 +260,8 @@ console.log(args);
                             process.exit(0);
                         });
                     }
-                    
-                    
+
+
                 }
 			};
 			var errorCb = function(err) {
@@ -269,7 +270,7 @@ console.log(args);
 			};
 
 			runTest(i).then(undefined, errorCb);
-			
+
 		} catch(exp) {
 			console.log(exp);
 		}
@@ -292,7 +293,7 @@ function getFiles(pattern) {
 }
 
 function startServer(port, cb) {
-    
+
     var net = require('net');
 
     var HOST = '127.0.0.1';
@@ -305,7 +306,7 @@ function startServer(port, cb) {
         setTimeout(function() {
             cb(sock);
         }, 500);
-        
+
     }).listen(PORT, HOST);
 
     console.log('Server listening on ' + HOST +':'+ PORT);
