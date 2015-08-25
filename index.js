@@ -215,7 +215,7 @@ var colors = require('colors'),
                     for (var i in src) {
                         var filesr = src[i];
                         if (checkFileRelativePath(filesr, filePath, srcFileName)) {
-                            src.splice(i, 1)
+                            src.splice(i, 1);
                             srcFile = filesr;
                             list.push(filesr);
                             break;
@@ -230,20 +230,23 @@ var colors = require('colors'),
                 console.log("Running " + basename + " tests...");
             }
 
-            try {
+            if (testData.src.length > 0) {
+                try {
+                    var execCmd = '"' + nw_path + '" ./node_modules/nw-test-runner/lib/ ' + opts.port;
+                    var child = cp.exec(execCmd, function (err, done) {
+                        if (err)
+                            defer.reject(err);
+                        else
+                            defer.resolve(true);
+                    });
 
-                var execCmd = '"' + nw_path + '" ./node_modules/nw-test-runner/lib/ ' + opts.port;
-                var child = cp.exec(execCmd, function (err, done) {
-                    if (err)
-                        defer.reject(err);
-                    else
-                        defer.resolve(true);
-                });
-
-                //Add an error check
-            } catch (exp) {
-                console.log(exp);
-                defer.reject(exp);
+                    //Add an error check
+                } catch (exp) {
+                    console.log(exp);
+                    defer.reject(exp);
+                }
+            } else {
+                defer.reject('Source File is not found');
             }
 
             return defer.promise;
@@ -277,8 +280,8 @@ var colors = require('colors'),
             }
         };
         var errorCb = function (err) {
-            console.log("Running test failed with error:- " + err);
-            //setTimeout(successCb, 500);
+            console.log(colors.red("Running test failed with error:- " + err));
+            setTimeout(successCb, 500);
         };
 
         runTest(i).then(undefined, errorCb);
@@ -296,15 +299,14 @@ function getBaseName(filename, ext) {
 function getRelativeDirPath(absolute_path, file) {
     var dirPath = undefined;
     try {
-        if(absolute_path) {
+        if (absolute_path) {
             var dirName = path.dirname(file);
             dirPath = path.relative(absolute_path, dirName);
         }
-    }
-    catch(err) {
+    } catch (err) {
         console.log(err);
     }
-    return dirPath
+    return dirPath;
 }
 
 function checkFileRelativePath(file, filePath, fileName) {
@@ -312,7 +314,7 @@ function checkFileRelativePath(file, filePath, fileName) {
     var pathToMatch = [];
     var pathToCheck = [];
 
-    if(filePath) {
+    if (filePath) {
         pathToMatch = filePath.split(path.sep);
     }
 
@@ -322,13 +324,12 @@ function checkFileRelativePath(file, filePath, fileName) {
     pathToMatch.reverse();
 
     try {
-        for(var i=0; i<pathToMatch.length; i++) {
-            if(pathToMatch[i] !== pathToCheck[i]) {
+        for (var i = 0; i < pathToMatch.length; i++) {
+            if (pathToMatch[i] !== pathToCheck[i]) {
                 return false;
             }
         }
-    }
-    catch(err) {
+    } catch (err) {
         console.log(err);
         return false;
     }
