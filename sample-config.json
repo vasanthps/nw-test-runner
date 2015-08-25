@@ -9,5 +9,6 @@
     "test": "tests/**/*test.js",
     "output": "test-results",
     "nwpath": "nodewebkit/nw",
-    "ext": "test"
+    "ext": "test",
+    "abspath": "tests/"
 }

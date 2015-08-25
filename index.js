@@ -27,6 +27,7 @@ var colors = require('colors'),
             opts = require(aconf),
             fse = require('fs-extra'),
             output_folder = "",
+            absolute_path = "",
             nw_path = "",
             i = 0,
             j = 0,
@@ -77,6 +78,16 @@ var colors = require('colors'),
             return;
         } else {
             nw_path = opts.nwpath;
+        }
+
+        if (!opts.abspath) {
+            absolute_path = undefined;
+
+        } else if (typeof opts.abspath !== 'string') {
+            absolute_path = undefined;
+            console.log(colors.red("Absolute path must be a string"));
+        } else {
+            absolute_path = opts.abspath;
         }
 
         var serverCB = function (s) {
@@ -148,6 +159,8 @@ var colors = require('colors'),
                 var outputFilename = getBaseName(basename, ext) + '.result.xml';
                 var srcFile, mockFile, depFile, addlFiles, list = [];
 
+                var filePath = getRelativeDirPath(absolute_path, file);
+
                 testData.outputFileName = outputFilename;
 
                 if (opts.files) {
@@ -166,7 +179,7 @@ var colors = require('colors'),
                     list = [];
                     for (var i in mock) {
                         var filem = mock[i];
-                        if (filem.indexOf(mockFileName) > -1) {
+                        if (checkFileRelativePath(filem, filePath, mockFileName)) {
                             mockFile = filem;
                             list.push(path.resolve(filem));
                             break;
@@ -180,7 +193,7 @@ var colors = require('colors'),
                     list = [];
                     for (var i in deps) {
                         var filed = deps[i];
-                        if (filed.indexOf(depsFileName) > -1) {
+                        if (checkFileRelativePath(filed, filePath, depsFileName)) {
                             depFile = filed;
                             try {
                                 addlFiles = require(path.resolve(filed));
@@ -201,7 +214,7 @@ var colors = require('colors'),
                     list = [];
                     for (var i in src) {
                         var filesr = src[i];
-                        if (filesr.indexOf(srcFileName) > -1) {
+                        if (checkFileRelativePath(filesr, filePath, srcFileName)) {
                             src.splice(i, 1)
                             srcFile = filesr;
                             list.push(filesr);
@@ -280,6 +293,48 @@ function getBaseName(filename, ext) {
     return name[0];
 }
 
+function getRelativeDirPath(absolute_path, file) {
+    var dirPath = undefined;
+    try {
+        if(absolute_path) {
+            var dirName = path.dirname(file);
+            dirPath = path.relative(absolute_path, dirName);
+        }
+    }
+    catch(err) {
+        console.log(err);
+    }
+    return dirPath
+}
+
+function checkFileRelativePath(file, filePath, fileName) {
+
+    var pathToMatch = [];
+    var pathToCheck = [];
+
+    if(filePath) {
+        pathToMatch = filePath.split(path.sep);
+    }
+
+    file = path.resolve(file);
+    pathToCheck = file.split(path.sep).reverse();
+    pathToMatch.push(fileName);
+    pathToMatch.reverse();
+
+    try {
+        for(var i=0; i<pathToMatch.length; i++) {
+            if(pathToMatch[i] !== pathToCheck[i]) {
+                return false;
+            }
+        }
+    }
+    catch(err) {
+        console.log(err);
+        return false;
+    }
+
+    return true;
+}
 
 function getFiles(pattern) {
     if (typeof pattern === 'string') {
