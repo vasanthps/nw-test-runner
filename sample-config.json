@@ -10,5 +10,5 @@
     "output": "test-results",
     "nwpath": "nodewebkit/nw",
     "ext": "test",
-    "abspath": "tests/"
+    "testFolder": "tests/"
 }

@@ -27,7 +27,7 @@ var colors = require('colors'),
             opts = require(aconf),
             fse = require('fs-extra'),
             output_folder = "",
-            absolute_path = "",
+            testFolder = "",
             nw_path = "",
             i = 0,
             j = 0,
@@ -80,14 +80,11 @@ var colors = require('colors'),
             nw_path = opts.nwpath;
         }
 
-        if (!opts.abspath) {
-            absolute_path = undefined;
-
-        } else if (typeof opts.abspath !== 'string') {
-            absolute_path = undefined;
+        // Get test folder path
+        if (!opts.testFolder) {} else if (typeof opts.testFolder !== 'string') {
             console.log(colors.red("Absolute path must be a string"));
         } else {
-            absolute_path = opts.abspath;
+            testFolder = opts.testFolder;
         }
 
         var serverCB = function (s) {
@@ -159,7 +156,7 @@ var colors = require('colors'),
                 var outputFilename = getBaseName(basename, ext) + '.result.xml';
                 var srcFile, mockFile, depFile, addlFiles, list = [];
 
-                var filePath = getRelativeDirPath(absolute_path, file);
+                var filePath = getRelativeDirPath(testFolder, file);
 
                 testData.outputFileName = outputFilename;
 
@@ -296,12 +293,12 @@ function getBaseName(filename, ext) {
     return name[0];
 }
 
-function getRelativeDirPath(absolute_path, file) {
+function getRelativeDirPath(testFolder, file) {
     var dirPath = undefined;
     try {
-        if (absolute_path) {
+        if (testFolder) {
             var dirName = path.dirname(file);
-            dirPath = path.relative(absolute_path, dirName);
+            dirPath = path.relative(testFolder, dirName);
         }
     } catch (err) {
         console.log(err);
@@ -309,17 +306,17 @@ function getRelativeDirPath(absolute_path, file) {
     return dirPath;
 }
 
-function checkFileRelativePath(file, filePath, fileName) {
+function checkFileRelativePath(filePath, searchFilePath, fileName) {
 
     var pathToMatch = [];
     var pathToCheck = [];
 
-    if (filePath) {
-        pathToMatch = filePath.split(path.sep);
+    if (searchFilePath) {
+        pathToMatch = searchFilePath.split(path.sep);
     }
 
-    file = path.resolve(file);
-    pathToCheck = file.split(path.sep).reverse();
+    filePath = path.resolve(filePath);
+    pathToCheck = filePath.split(path.sep).reverse();
     pathToMatch.push(fileName);
     pathToMatch.reverse();
 
