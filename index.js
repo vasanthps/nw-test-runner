@@ -45,10 +45,17 @@ var colors = require('colors'),
 
         if (opts.test) {
             test = getFiles(opts.test);
+
+            /*
+             *  Get the test files from Command line argument
+             */
             if (process.argv[2]) {
+                var testFiles = path.normalize(process.argv[2]);
+                testFiles = (path.extname(testFiles) !== '.js') ? (path.sep + testFiles + path.sep) : (path.sep + testFiles);
                 test = test.filter(function (item) {
-                    return item.indexOf(process.argv[2]) != -1;
+                    return item.indexOf(testFiles) != -1;
                 });
+                opts.doNotRunCoverage = true;
             }
         } else {
             console.log(colors.red("Test files to execute should be mentioned in config file"));
@@ -82,7 +89,7 @@ var colors = require('colors'),
 
         // Get test folder path
         if (!opts.testFolder) {} else if (typeof opts.testFolder !== 'string') {
-            console.log(colors.red("Absolute path must be a string"));
+            console.log(colors.red("Test Folder must be a string"));
         } else {
             testFolder = opts.testFolder;
         }
