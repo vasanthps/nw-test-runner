@@ -55,7 +55,6 @@ var colors = require('colors'),
                 test = test.filter(function (item) {
                     return item.indexOf(testFiles) != -1;
                 });
-                opts.doNotRunCoverage = true;
             }
         } else {
             console.log(colors.red("Test files to execute should be mentioned in config file"));
@@ -236,7 +235,7 @@ var colors = require('colors'),
 
             if (testData.src.length > 0) {
                 try {
-                    var execCmd = '"' + nw_path + '" ./node_modules/nw-test-runner/lib/ ' + opts.port;
+                    var execCmd = '"' + nw_path + '" ./node_modules/nw-test-runner/lib/client/ ' + opts.port;
                     var child = cp.exec(execCmd, function (err, done) {
                         if (err)
                             defer.reject(err);
