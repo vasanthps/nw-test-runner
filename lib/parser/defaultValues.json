@@ -1,0 +1,8 @@
+{
+    "output": "nwtest_results",
+    "ext": "test",
+    "port": 3232,
+    "doNotRunCoverage": false,
+    "config": "nwtest.config.json",
+    "covReport": ["cobertura", "html"]
+}
