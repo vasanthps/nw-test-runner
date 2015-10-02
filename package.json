@@ -1,12 +1,12 @@
 {
-  "name": "nw-test-runner",
-  "version": "1.4.0",
-  "description": "Test runner for node webkit with mocha, chai and Istabul.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
+    "name": "nw-test-runner",
+    "version": "1.5.0",
+    "description": "Test runner for node webkit with mocha, chai and Istabul.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
     "nw",
     "node",
     "webkit",
@@ -17,26 +17,26 @@
     "istanbul",
     "jenkins"
   ],
-  "author": "Vasanth Sriram",
-  "license": "MIT",
-  "homepage": "https://github.com/vasanthps/nw-test-runner",
-  "bugs": {
-    "url": "https://github.com/vasanthps/nw-test-runner/issues",
-    "email": "sayhello@vasanthsriram.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vasanthps/nw-test-runner"
-  },
-  "dependencies": {
-    "argparse": "^1.0.2",
-    "chai": "^1.10.0",
-    "colors": "^1.0.3",
-    "glob-array": "^0.1.2",
-    "istanbul": "^0.3.7",
-    "jquery": "^2.1.3",
-    "mocha": "2.2.1",
-    "npm": "^2.14.3",
-    "q": "^1.1.2"
-  }
+    "author": "Vasanth Sriram",
+    "license": "MIT",
+    "homepage": "https://github.com/vasanthps/nw-test-runner",
+    "bugs": {
+        "url": "https://github.com/vasanthps/nw-test-runner/issues",
+        "email": "sayhello@vasanthsriram.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/vasanthps/nw-test-runner"
+    },
+    "dependencies": {
+        "argparse": "1.0.2",
+        "chai": "1.10.0",
+        "colors": "1.0.3",
+        "glob-array": "0.1.2",
+        "istanbul": "0.3.7",
+        "jquery": "2.1.3",
+        "mocha": "2.2.1",
+        "npm": "2.14.3",
+        "q": "1.1.2"
+    }
 }
