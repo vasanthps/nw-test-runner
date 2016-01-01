@@ -2,7 +2,7 @@
     "output": "nwtest_results",
     "ext": "test",
     "port": 3232,
-    "doNotRunCoverage": false,
+    "ignoreCoverageForUntested": false,
     "config": "nwtest.config.json",
     "covReport": ["cobertura", "html"]
 }

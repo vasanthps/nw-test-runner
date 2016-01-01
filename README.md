@@ -31,7 +31,7 @@ Here is a sample file:-
     "nwpath": "nodewebkit/nw",
     "ext": "spec",
     "covReport": ['cobertura', 'html' ],
-    "doNotRunCoverage": true
+    "ignoreCoverageForUntested": true
 }
 ```
 
@@ -53,7 +53,7 @@ Here is a sample file:-
 
 '<B>covReport</B>' - Array of coverage reports you need to be generated
 
-'<B>doNotRunCoverage</B>' - This will check if coverage needs to be run for source files that have no tests
+'<B>ignoreCoverageForUntested</B>' - This will check if coverage needs to be run for source files that have no tests
 
 How does it work?
 -----------------
