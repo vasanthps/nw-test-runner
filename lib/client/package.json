@@ -3,5 +3,8 @@
 	"main": "index.html",
 	"window": {
 		"show": false
+	},
+	"nodeWebkit": {
+		"donotCloseNW": false
 	}
 }
