@@ -6,17 +6,21 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
+	"bin": {
+		"nw-test": "index.js"
+	},
+	"preferGlobal": true,
 	"keywords": [
-    "nw",
-    "node",
-    "webkit",
-    "test",
-    "runner",
-    "unit",
-    "coverage",
-    "istanbul",
-    "jenkins"
-  ],
+		"nw",
+		"node",
+		"webkit",
+		"test",
+		"runner",
+		"unit",
+		"coverage",
+		"istanbul",
+		"jenkins"
+  	],
 	"author": "Vasanth Sriram",
 	"license": "MIT",
 	"homepage": "https://github.com/vasanthps/nw-test-runner",
