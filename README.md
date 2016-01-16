@@ -14,7 +14,7 @@ How to use nw-test-runner?
 Install to your project folder using npm:
 > npm install nw-test-runner --save-dev
 
-Create a config file in your project folder from where you are going to run your unit tests. The name of the file should be <B>nwtest.config.js</B>
+Create a config file in your project folder from where you are going to run your unit tests. The name of the file should be <B>nwtest.config.json</B>
 
 Here is a sample file:-
 ```javascript
@@ -29,6 +29,7 @@ Here is a sample file:-
     "test":"tests/**/*test.js",
     "output": "test-results",
     "nwpath": "nodewebkit/nw",
+	"testFolder": "unitTests/",
     "ext": "spec",
     "covReport": ['cobertura', 'html' ],
     "ignoreCoverageForUntested": true
@@ -37,7 +38,7 @@ Here is a sample file:-
 
 '<B>files</B>' - Files to include in all your tests.These will be loaded before all your test, mock and source files
 
-'<B>src</B>' - The source file pattern to match and load
+'<B>src*</B>' - The source file pattern to match and load
 
 '<B>mock</B>' - The mock file pattern to match and load
 
@@ -48,6 +49,8 @@ Here is a sample file:-
 '<B>output</B>' - The output folder to which all your test results will be published.
 
 '<B>nwpath*</B>' - The path to the nw.exe.
+
+'<B>testFolder*</B>' - THe path to the unit test folder from current working directory.
 
 '<B>ext</B>' - The extension you use for your test file name. Could be *.spec.js or *.test.js.
 
@@ -71,6 +74,8 @@ If you want to include some other source files to support your test, it can be d
 module.exports = ['/path/to/file1.js', '/path/to/file2.js'];
 ```
 
+It is recommended to follow the source code directory structure in unit test and mention the relative path from current working directory to the unit test directory in 'testFolder' parameter.
+
 How to run the tests?
 --------------------
 
@@ -84,6 +89,11 @@ In case, you want to run only a perticular test file, you can pass an optional c
 > node node_modules/nw-test-runner app.service.js
 
 
-Later, a cli tool will be added for running the tests
+Command Line Options
+--------------------
 
-
+<B>'-h', '--help'</B> - Show help message and exit
+<B>'-v', '--version'</B> - Show version number and exit
+<B>'-d', '--directory'</B> - Specify the directory and run the unit test only for the source files inside the directory
+<B>'-f', '--file'</B> - Specify a file or a set of files(comma seperated and without white-space) and run the unit test only for the files
+<B>'-i', '--ignoreCoverageForUntested'</B> - Assign true to ignore coverage for source files that have no tests
