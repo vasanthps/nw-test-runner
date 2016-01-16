@@ -93,7 +93,11 @@ Command Line Options
 --------------------
 
 <B>'-h', '--help'</B> - Show help message and exit
+
 <B>'-v', '--version'</B> - Show version number and exit
+
 <B>'-d', '--directory'</B> - Specify the directory and run the unit test only for the source files inside the directory
+
 <B>'-f', '--file'</B> - Specify a file or a set of files(comma seperated and without white-space) and run the unit test only for the files
+
 <B>'-i', '--ignoreCoverageForUntested'</B> - Assign true to ignore coverage for source files that have no tests
