@@ -50,7 +50,7 @@ Here is a sample file:-
 
 '<B>nwpath*</B>' - The path to the nw.exe.
 
-'<B>testFolder*</B>' - THe path to the unit test folder from current working directory.
+'<B>testFolder*</B>' - The path to the unit test folder from current working directory.
 
 '<B>ext</B>' - The extension you use for your test file name. Could be *.spec.js or *.test.js.
 
