@@ -1,5 +1,5 @@
 {
-	"name": "nw-test-runner",
+	"name": "nwjs-test-runner",
 	"main": "index.html",
 	"window": {
 		"show": false

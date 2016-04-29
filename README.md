@@ -1,18 +1,18 @@
-# nw-test-runner
+# nwjs-test-runner
 Test runner for node webkit app with mocha and istanbul
 
-Why nw-test-runner?
+Why nwjs-test-runner?
 -------------------
 
-We were working on a node-webkit app and we couldn't find a good way to write unit tests. Our unit tests initially were written with mocha and separated as client and node side tests. Client side tests were run with mocha-phantomjs and mocha used in node side tests. But, it was not enough. The tests that we wrote, though they passed in their respective environments we cannot be sure that they will pass in node-webkit. Also, node-webkit allowed us to write browser side and node side scripts intertwined, which means we had to mock a lot of things to get the test running. Hence, we decided to run the unit tests in the node-webkit environment. But, there were no good libraries that allowed us to do so. Hence, nw-test-runner was created.
+We were working on a node-webkit app and we couldn't find a good way to write unit tests. Our unit tests initially were written with mocha and separated as client and node side tests. Client side tests were run with mocha-phantomjs and mocha used in node side tests. But, it was not enough. The tests that we wrote, though they passed in their respective environments we cannot be sure that they will pass in node-webkit. Also, node-webkit allowed us to write browser side and node side scripts intertwined, which means we had to mock a lot of things to get the test running. Hence, we decided to run the unit tests in the node-webkit environment. But, there were no good libraries that allowed us to do so. Hence, nwjs-test-runner was created.
 
 
 
-How to use nw-test-runner?
+How to use nwjs-test-runner?
 --------------------------
 
 Install to your project folder using npm:
-> npm install nw-test-runner --save-dev
+> npm install nwjs-test-runner --save-dev
 
 Create a config file in your project folder from where you are going to run your unit tests. The name of the file should be <B>nwtest.config.json</B>
 
@@ -61,7 +61,7 @@ Here is a sample file:-
 How does it work?
 -----------------
 
-The nw-test-runner goes through your list of test files that you have added. It picks a test file and then tries to find the corresponding src, mock and dependency file by matching the name.
+The nwjs-test-runner goes through your list of test files that you have added. It picks a test file and then tries to find the corresponding src, mock and dependency file by matching the name.
 
 For ex:-
 
@@ -80,13 +80,13 @@ How to run the tests?
 --------------------
 
 As of now, you have to do 
-> node node_modules/nw-test-runner
+> node node_modules/nwjs-test-runner
 
 or, alternatively you can make this command to be executed for 'npm test' in package.json
 
 In case, you want to run only a perticular test file, you can pass an optional command line argument. The test files that contain the string that you passed in their name only will be run
 
-> node node_modules/nw-test-runner app.service.js
+> node node_modules/nwjs-test-runner app.service.js
 
 
 Command Line Options
