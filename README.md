@@ -1,3 +1,6 @@
+# [DEPRECATED]
+Please check out https://github.com/Sachinmanoj/nwjs-test-runner . It is continuously developed and maintained
+
 # nw-test-runner
 Test runner for node webkit app with mocha and istanbul
 
